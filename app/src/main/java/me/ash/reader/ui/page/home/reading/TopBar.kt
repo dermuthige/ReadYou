@@ -71,6 +71,7 @@ fun TopBar(
     val context = LocalContext.current
     val sharedContent = LocalSharedContent.current
     val darkTheme = LocalDarkTheme.current
+    val toggledTheme = !darkTheme
     val scope = rememberCoroutineScope()
     val isOutlined =
         LocalReadingPageTonalElevation.current == ReadingPageTonalElevationPreference.Outlined
@@ -136,7 +137,7 @@ fun TopBar(
                             contentDescription = "Toggle theme",
                             tint = MaterialTheme.colorScheme.onSurface,
                         ) {
-                            (!darkTheme).put(context, scope)
+                            toggledTheme.put(context, scope)
                         }
                         FeedbackIconButton(
                             modifier = Modifier.size(22.dp),
