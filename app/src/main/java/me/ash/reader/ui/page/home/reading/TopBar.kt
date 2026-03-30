@@ -29,6 +29,7 @@ import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.material.icons.rounded.MenuOpen
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -47,11 +48,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import me.ash.reader.R
 import me.ash.reader.infrastructure.preference.LocalDarkTheme
+import me.ash.reader.infrastructure.preference.LocalReadingTextBold
 import me.ash.reader.infrastructure.preference.LocalReadingPageTonalElevation
 import me.ash.reader.infrastructure.preference.LocalSharedContent
 import me.ash.reader.infrastructure.preference.ReadingPageTonalElevationPreference
 import me.ash.reader.infrastructure.preference.not
 import me.ash.reader.ui.component.base.FeedbackIconButton
+import me.ash.reader.ui.component.webview.BoldCharactersIcon
 import me.ash.reader.ui.page.adaptive.NavigationAction
 
 private val sizeSpec = spring<IntSize>(stiffness = 700f)
@@ -72,6 +75,7 @@ fun TopBar(
     val sharedContent = LocalSharedContent.current
     val darkTheme = LocalDarkTheme.current
     val toggledTheme = !darkTheme
+    val textBold = LocalReadingTextBold.current
     val scope = rememberCoroutineScope()
     val isOutlined =
         LocalReadingPageTonalElevation.current == ReadingPageTonalElevationPreference.Outlined
@@ -138,6 +142,15 @@ fun TopBar(
                             tint = MaterialTheme.colorScheme.onSurface,
                         ) {
                             toggledTheme.put(context, scope)
+                        }
+                        IconButton(
+                            onClick = { (!textBold).put(context, scope) },
+                        ) {
+                            BoldCharactersIcon(
+                                size = 22.dp,
+                                tint = MaterialTheme.colorScheme.onSurface,
+                                activated = textBold.value,
+                            )
                         }
                         FeedbackIconButton(
                             modifier = Modifier.size(22.dp),
