@@ -20,6 +20,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.MenuOpen
+import androidx.compose.material.icons.outlined.DarkMode
+import androidx.compose.material.icons.outlined.LightMode
 import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.rounded.Close
@@ -27,12 +29,14 @@ import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.material.icons.rounded.MenuOpen
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -43,10 +47,14 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import me.ash.reader.R
+import me.ash.reader.infrastructure.preference.LocalDarkTheme
+import me.ash.reader.infrastructure.preference.LocalReadingBoldCharacters
 import me.ash.reader.infrastructure.preference.LocalReadingPageTonalElevation
 import me.ash.reader.infrastructure.preference.LocalSharedContent
 import me.ash.reader.infrastructure.preference.ReadingPageTonalElevationPreference
+import me.ash.reader.infrastructure.preference.not
 import me.ash.reader.ui.component.base.FeedbackIconButton
+import me.ash.reader.ui.component.webview.BoldCharactersIcon
 import me.ash.reader.ui.page.adaptive.NavigationAction
 
 private val sizeSpec = spring<IntSize>(stiffness = 700f)
@@ -65,6 +73,10 @@ fun TopBar(
 ) {
     val context = LocalContext.current
     val sharedContent = LocalSharedContent.current
+    val darkTheme = LocalDarkTheme.current
+    val toggledTheme = !darkTheme
+    val boldCharacters = LocalReadingBoldCharacters.current
+    val scope = rememberCoroutineScope()
     val isOutlined =
         LocalReadingPageTonalElevation.current == ReadingPageTonalElevationPreference.Outlined
 
@@ -122,6 +134,24 @@ fun TopBar(
                         }
                     },
                     actions = {
+                        FeedbackIconButton(
+                            modifier = Modifier.size(22.dp),
+                            imageVector = if (darkTheme.isDarkTheme())
+                                Icons.Outlined.LightMode else Icons.Outlined.DarkMode,
+                            contentDescription = "Toggle theme",
+                            tint = MaterialTheme.colorScheme.onSurface,
+                        ) {
+                            toggledTheme.put(context, scope)
+                        }
+                        IconButton(
+                            onClick = { (!boldCharacters).put(context, scope) },
+                        ) {
+                            BoldCharactersIcon(
+                                size = 22.dp,
+                                tint = MaterialTheme.colorScheme.onSurface,
+                                activated = boldCharacters.value,
+                            )
+                        }
                         FeedbackIconButton(
                             modifier = Modifier.size(22.dp),
                             imageVector = Icons.Outlined.Palette,
