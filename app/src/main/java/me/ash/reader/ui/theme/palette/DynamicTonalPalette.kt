@@ -58,7 +58,21 @@ fun dynamicLightColorScheme(): ColorScheme {
         onTertiaryFixed = palettes tertiary 10,
         tertiaryFixedDim = palettes tertiary 90,
         onTertiaryFixedVariant = palettes tertiary 30
-    )
+    ).run {
+        copy(
+            surface = Color.White,
+            background = Color.White,
+            surfaceBright = Color.White,
+            surfaceContainerLowest = Color.White,
+            surfaceContainerLow = Color.White,
+            surfaceContainer = Color.White,
+            surfaceContainerHigh = Color.White,
+            surfaceContainerHighest = Color.White,
+            onSurface = Color.Black,
+            onBackground = Color.Black,
+            onSurfaceVariant = Color.Black,
+        )
+    }
 }
 
 @Composable
@@ -111,14 +125,19 @@ fun dynamicDarkColorScheme(): ColorScheme {
         tertiaryFixedDim = palettes tertiary 90,
         onTertiaryFixedVariant = palettes tertiary 30
     ).run {
-        if (useAmoledDarkTheme) copy(
+        copy(
             surface = Color.Black,
-            surfaceContainerHighest = palettes neutral 8,
-            surfaceContainerHigh = palettes neutral 6,
-            surfaceContainer = palettes neutral 4,
-            surfaceContainerLow = palettes neutral 4,
+            background = Color.Black,
+            surfaceBright = Color.Black,
+            surfaceContainerHighest = Color.Black,
+            surfaceContainerHigh = Color.Black,
+            surfaceContainer = Color.Black,
+            surfaceContainerLow = Color.Black,
             surfaceContainerLowest = Color.Black,
-        ) else this
+            onSurface = Color.White,
+            onBackground = Color.White,
+            onSurfaceVariant = Color.White,
+        )
     }
 }
 
