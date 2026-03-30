@@ -158,6 +158,7 @@ Vielen Dank an **JetBrains** für die Bereitstellung von kostenlosen Open-Source
 
 Vielen Dank an **Weblate** für das kostenlose Hosting von Open-Source-Projekten für **Read You**.
 
+
 ## Lizenz
 
 GNU GPL v3.0 © [Read You](https://github.com/ReadYouApp/ReadYou/blob/main/LICENSE)
